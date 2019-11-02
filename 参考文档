@@ -1,0 +1,6 @@
+整个参考代码：
+https://github.com/spring-guides/gs-messaging-stomp-websocket/tree/master/complete/src/main/java/hello
+spring 官方参考 处理websocket session
+https://docs.spring.io/spring-session/docs/current/reference/html5/guides/boot-websocket.html
+官方文档
+https://spring.io/guides/gs/messaging-stomp-websocket/
