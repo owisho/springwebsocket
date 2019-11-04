@@ -1,26 +1,25 @@
-package per.owisho.learn.websocket.handler;
+package per.owisho.learn.websocket.interceptor;
 
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.server.HandshakeFailureException;
-import org.springframework.web.socket.server.HandshakeHandler;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 import javax.servlet.http.Cookie;
 import java.util.Map;
 
-public class SocketHandshakeHandlerImpl implements HandshakeHandler {
+public class HandshakeInterceptorImpl extends HttpSessionHandshakeInterceptor {
+
     @Override
-    public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws HandshakeFailureException {
-        System.out.println(request);
+    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         if(request instanceof ServletServerHttpRequest){
             ServletServerHttpRequest req = (ServletServerHttpRequest)request;
             Cookie[] cookies =req.getServletRequest().getCookies();
             String token = getToken("token",cookies);
-            System.out.println(token);
+            attributes.put("token", token);
         }
-        return false;
+        return super.beforeHandshake(request, response, wsHandler, attributes);
     }
 
     private String getToken(String name,Cookie[] cookies){
@@ -33,5 +32,4 @@ public class SocketHandshakeHandlerImpl implements HandshakeHandler {
         }
         return "";
     }
-
 }
